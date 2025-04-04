@@ -1,4 +1,5 @@
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 import PreventBackNavigation from "./PreventBackNavigation";
 // import "../styles/mainLayout.css";
@@ -12,6 +13,7 @@ const MainLayout = () => {
       <div className="outletSect">
         <Outlet />
       </div>
+      <Footer />
     </div>
   );
 };

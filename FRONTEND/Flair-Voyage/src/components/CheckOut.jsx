@@ -35,7 +35,7 @@ const CheckOut = ({ reserve, selectedDate, selectedTime }) => {
   const handleSubmit = async () => {
     try {
       const bookYacht = await axios.post(
-        "http://localhost:3000/api/create-new-booking",
+        "https://flair-voyage-backend.onrender.com/api/create-new-booking",
         bookingDetails,
         {
           headers: {

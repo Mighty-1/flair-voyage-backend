@@ -68,7 +68,7 @@ const AddYacht = () => {
     try {
       // const token = localStorage.getItem("token");
       const createYacht = await axios.post(
-        "http://localhost:3000/api/create-a-yacht",
+        "https://flair-voyage-backend.onrender.com/api/create-a-yacht",
         data,
         {
           headers: {

@@ -34,7 +34,7 @@ const BookNow = ({
     const fetchYacht = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/fetch-yacht-by-id/${id}`
+          `https://flair-voyage-backend.onrender.com/api/fetch-yacht-by-id/${id}`
         );
         // Check if the response is OK and data exists
         if (response && response.data) {

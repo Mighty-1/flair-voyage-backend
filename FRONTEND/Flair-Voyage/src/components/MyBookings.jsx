@@ -27,7 +27,7 @@ const MyBookings = () => {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/get-all-bookings",
+          "https://flair-voyage-backend.onrender.com/api/get-all-bookings",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -70,7 +70,7 @@ const MyBookings = () => {
 
     try {
       await axios.delete(
-        `http://localhost:3000/api/cancel-booking/${bookingId}`,
+        `https://flair-voyage-backend.onrender.com/api/cancel-booking/${bookingId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

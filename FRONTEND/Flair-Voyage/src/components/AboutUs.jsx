@@ -30,7 +30,7 @@ const AboutUs = () => {
     try {
       if (isInWishlist) {
         await axios.post(
-          "http://localhost:3000/api/wishlists/remove-item",
+          "https://flair-voyage-backend.onrender.com/api/wishlists/remove-item",
           { yachtId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -38,7 +38,7 @@ const AboutUs = () => {
         dispatch(removeFromWishlist(yachtId));
       } else {
         await axios.post(
-          "http://localhost:3000/api/wishlists/add-item",
+          "https://flair-voyage-backend.onrender.com/api/wishlists/add-item",
           { yachtId },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -77,7 +77,7 @@ const AboutUs = () => {
       try {
         // const token = localStorage.getItem("token");
         const search = await axios.get(
-          `http://localhost:3000/api/search?query=${trimmedQuery}`,
+          `https://flair-voyage-backend.onrender.com/api/search?query=${trimmedQuery}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Add bearer token

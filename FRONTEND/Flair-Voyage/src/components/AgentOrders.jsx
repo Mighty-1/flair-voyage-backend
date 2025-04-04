@@ -26,7 +26,7 @@ const AgentOrders = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/agent/orders",
+          "https://flair-voyage-backend.onrender.com/api/agent/orders",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -46,7 +46,7 @@ const AgentOrders = () => {
   const confirmOrder = async (orderId) => {
     try {
       await axios.put(
-        `http://localhost:3000/api/orders/${orderId}/confirm`,
+        `https://flair-voyage-backend.onrender.com/api/orders/${orderId}/confirm`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -65,7 +65,7 @@ const AgentOrders = () => {
   const cancelOrder = async (orderId) => {
     try {
       await axios.put(
-        `http://localhost:3000/api/orders/${orderId}/cancel`,
+        `https://flair-voyage-backend.onrender.com/api/orders/${orderId}/cancel`,
         {},
         {
           headers: { Authorization: `Bearer ${token}` },

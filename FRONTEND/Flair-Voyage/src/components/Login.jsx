@@ -27,7 +27,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/login",
+        "https://flair-voyage-backend.onrender.com/api/login",
         loginData
       );
       if (response.status === 200) {

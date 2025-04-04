@@ -26,7 +26,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/register",
+        "https://flair-voyage-backend.onrender.com/api/register",
         formData
       );
       if (response.status === 201) {

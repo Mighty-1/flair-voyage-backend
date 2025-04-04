@@ -62,7 +62,7 @@ const FlutterWavePayment = ({ amount, email, name, bookingDetails }) => {
       if (response.status === "successful") {
         try {
           const verifyResponse = await axios.get(
-            `http://localhost:3000/api/flutterwave/verify-payment/${response.transaction_id}`,
+            `https://flair-voyage-backend.onrender.com/api/flutterwave/verify-payment/${response.transaction_id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -73,7 +73,7 @@ const FlutterWavePayment = ({ amount, email, name, bookingDetails }) => {
           if (verifyResponse.data.data.status === "successful") {
             // Perform additional actions (e.g., update order status, notify user)
             const booking = await axios.post(
-              "http://localhost:3000/api/create-new-booking",
+              "https://flair-voyage-backend.onrender.com/api/create-new-booking",
               newBookingDetails,
               {
                 headers: { Authorization: `Bearer ${token}` },

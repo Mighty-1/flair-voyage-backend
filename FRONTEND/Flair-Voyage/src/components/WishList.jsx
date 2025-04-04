@@ -22,7 +22,7 @@ const WishList = () => {
     const fetchWishlist = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/wishlists",
+          "https://flair-voyage-backend.onrender.com/api/wishlists",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -41,7 +41,7 @@ const WishList = () => {
   const handleAddItem = async (yachtId) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/wishlists/add-item",
+        "https://flair-voyage-backend.onrender.com/api/wishlists/add-item",
         { yachtId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -55,7 +55,7 @@ const WishList = () => {
   const handleRemoveItem = async (yachtId) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/wishlists/remove-item",
+        "https://flair-voyage-backend.onrender.com/api/wishlists/remove-item",
         { yachtId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

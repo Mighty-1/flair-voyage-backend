@@ -18,7 +18,7 @@ const MyBoats = () => {
   const handleDeleteBoat = async (id) => {
     if (!window.confirm("Are you sure you want to delete yacht?")) return;
     try {
-      await axios.delete(`http://localhost:3000/api/delete-a-yacht/${id}`, {
+      await axios.delete(`https://flair-voyage-backend.onrender.com/api/delete-a-yacht/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (error) {
@@ -42,7 +42,7 @@ const MyBoats = () => {
     const fetchBoats = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/fetch-all-yachts"
+          "https://flair-voyage-backend.onrender.com/api/fetch-all-yachts"
         );
 
         if (Array.isArray(response.data)) {

@@ -13,10 +13,11 @@ const app = express();
 app.use(
   cors({
     origin:
-      "https://flair-voyage-oakuzydz3-mightys-projects-1dbba71e.vercel.app/", // Replace with your frontend's URL
+      // "https://flair-voyage-oakuzydz3-mightys-projects-1dbba71e.vercel.app/", // Replace with your frontend's URL
+      "https://flair-voyage.vercel.app/",
     credentials: true,
   })
-);
+)
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

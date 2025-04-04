@@ -12,7 +12,8 @@ const app = express();
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // Replace with your frontend's URL
+    origin:
+      "https://flair-voyage-oakuzydz3-mightys-projects-1dbba71e.vercel.app/", // Replace with your frontend's URL
     credentials: true,
   })
 );

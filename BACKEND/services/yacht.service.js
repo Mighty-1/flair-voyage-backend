@@ -78,7 +78,6 @@ const deleteYacht = async (id) => {
   return yacht;
 };
 
-
 const searchYachts = async (query) => {
   try {
     const yachts = await Yacht.find({
@@ -93,8 +92,6 @@ const searchYachts = async (query) => {
     throw new Error("Error searching yachts");
   }
 };
-
-
 
 module.exports = {
   getAllYachts,

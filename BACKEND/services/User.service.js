@@ -28,16 +28,13 @@ const signIn = async (email, password) => {
     throw new Error("Invalid email or password");
   }
   const token = genToken(user._id);
-  const {_id: id,
-    name,
-    isAgent
-  } = user;
+  const { _id: id, name, isAgent } = user;
   const userWithoutSentitiveData = {
     id,
     name,
     email,
-    isAgent
-  }
+    isAgent,
+  };
   return { token, userWithoutSentitiveData };
 };
 

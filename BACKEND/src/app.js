@@ -1,0 +1,31 @@
+const express = require("express");
+const cors = require("cors");
+// const morgan = require('morgan');
+const userRoutes = require("./routes/User.routes");
+const bookingRoutes = require("./routes/booking.routes");
+const yachtRoutes = require("./routes/yacht.routes");
+const flutterwaveRoutes = require("./routes/payment.routes");
+const protect = require("./middlewares/authMiddleware");
+
+const app = express();
+
+// Middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Replace with your frontend's URL
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+// app.use(morgan('dev'));
+
+// Routes
+app.use("/api", userRoutes);
+app.use("/api", bookingRoutes);
+app.use("/api", yachtRoutes);
+app.use("/api", flutterwaveRoutes);
+app.use(protect);
+
+module.exports = app;

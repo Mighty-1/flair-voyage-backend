@@ -28,6 +28,7 @@ const MyBookings = () => {
       try {
         const response = await axios.get(
           "https://flair-voyage-backend.onrender.com/api/get-all-bookings",
+          // `${import.meta.env.VITE_APP_API_URL}/api/get-all-bookings`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

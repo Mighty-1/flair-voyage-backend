@@ -35,11 +35,12 @@ const BookNow = ({
       try {
         const response = await axios.get(
           `https://flair-voyage-backend.onrender.com/api/fetch-yacht-by-id/${id}`
+          // `${import.meta.env.VITE_APP_API_URL}/api/fetch-yacht-by-id/${id}`
         );
         // Check if the response is OK and data exists
         if (response && response.data) {
           dispatch(setSelectedYacht(response.data)); // Dispatch the data
-        } else {
+        }  else {
           console.error("Error: Invalid response data");
         }
       } catch (error) {

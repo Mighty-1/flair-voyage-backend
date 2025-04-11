@@ -16,39 +16,14 @@ const AboutUs = () => {
   const user = useSelector((state) => state.auth.user);
   const searchResult = useSelector((state) => state.search.searchResult);
   const token = useSelector((state) => state.auth.token);
-  const wishlist = useSelector((state) => state.wishlist);
-  const [inWishlist, setInWishlist] = useState(false);
+  const wishlist = useSelector((state) => state.wishlist.items);
 
   // const searchQuery = useSelector((state) => state.search.searchQuery);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleWishlist = async (yachtId) => {
-    const isInWishlist = wishlist.includes(yachtId);
-
-    try {
-      if (isInWishlist) {
-        await axios.post(
-          "https://flair-voyage-backend.onrender.com/api/wishlists/remove-item",
-          { yachtId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setInWishlist(false);
-        dispatch(removeFromWishlist(yachtId));
-      } else {
-        await axios.post(
-          "https://flair-voyage-backend.onrender.com/api/wishlists/add-item",
-          { yachtId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setInWishlist(true);
-        dispatch(addToWishlist(yachtId));
-      }
-    } catch (error) {
-      console.error("Error updating wishlist", error);
-    }
-  };
+  // const yachtId = localStorage.getItem("yachtId");
 
   const [query, setQuery] = useState("");
   // State to store the yacht selected for modal view
@@ -78,6 +53,7 @@ const AboutUs = () => {
         // const token = localStorage.getItem("token");
         const search = await axios.get(
           `https://flair-voyage-backend.onrender.com/api/search?query=${trimmedQuery}`,
+          // `http://localhost:3000/api/search?query=${trimmedQuery}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Add bearer token
@@ -269,41 +245,95 @@ const AboutUs = () => {
           <h1>Because you searched {placeSearched}</h1>
           {searchResult.length > 0 ? (
             <div className="item-list">
-              {searchResult.map((result) => (
-                <div key={result._id} className="item-card">
-                  <img
-                    src={result.images[0]}
-                    alt={result.name}
-                    className="item-image"
-                  />
-                  <div className="item-details">
-                    <h2>{result.name}</h2>
-                    <p>{result.description}</p>
-                    <p className="item-price">${result.price}</p>
-                    <div
-                      className="wishlist-icon"
-                      onClick={() => handleWishlist(result._id)}
-                    >
-                      <box-icon
-                        name="heart"
-                        animation="tada"
-                        type={inWishlist ? "solid" : "regular"}
-                        style={{ cursor: "pointer" }}
-                        flip="horizontal"
-                        color="#ff0000"
-                      ></box-icon>
-                    </div>
-                    <Link>
-                      <button
-                        className="view-details-btn"
-                        onClick={() => setSelectedYacht(result)}
+              {searchResult.map((result) => {
+                const isInWishlistInitially =
+                  Array.isArray(wishlist) &&
+                  wishlist.some((item) => item._id === result._id);
+                const [isCurrentlyInWishlist, setIsCurrentlyInWishlist] =
+                  // eslint-disable-next-line react-hooks/rules-of-hooks
+                  useState(isInWishlistInitially);
+
+                const handleWishlistClick = async (yachtId) => {
+                  setIsCurrentlyInWishlist(!isCurrentlyInWishlist);
+                  localStorage.setItem("yachtId", yachtId);
+                  const inWishlist =
+                    Array.isArray(wishlist) &&
+                    wishlist.some((item) => item._id === yachtId);
+
+                  try {
+                    if (inWishlist) {
+                      const response = await axios.post(
+                        // `${
+                        //   import.meta.env.VITE_APP_API_URL
+                        // }/api/wishlists/remove-item`,
+                        "https://flair-voyage-backend.onrender.com/api/wishlists/remove-item",
+                        { yachtId },
+                        { headers: { Authorization: `Bearer ${token}` } }
+                      );
+                      if (response && response.status === 401) {
+                        dispatch(logout());
+                        navigate("/login");
+                      } else {
+                        dispatch(removeFromWishlist(yachtId));
+                      }
+                    } else {
+                      const response = await axios.post(
+                        // `${
+                        //   import.meta.env.VITE_APP_API_URL
+                        // }/api/wishlists/add-item`,
+                        "https://flair-voyage-backend.onrender.com/api/wishlists/add-item",
+                        { yachtId },
+                        { headers: { Authorization: `Bearer ${token}` } }
+                      );
+                      if (response && response.status === 401) {
+                        dispatch(logout());
+                        navigate("/login");
+                      } else {
+                        dispatch(addToWishlist(yachtId));
+                      }
+                    }
+                    // setWishlistIcon is automatically handled in the useEffect above
+                  } catch (error) {
+                    console.error("Error updating wishlist", error);
+                  }
+                };
+
+                return (
+                  <div key={result._id} className="item-card">
+                    <img
+                      src={result.images[0]}
+                      alt={result.name}
+                      className="item-image"
+                    />
+                    <div className="item-details">
+                      <h2>{result.name}</h2>
+                      <p>{result.description}</p>
+                      <p className="item-price">${result.price}</p>
+                      <div
+                        className="wishlist-icon"
+                        onClick={() => handleWishlistClick(result._id)}
                       >
-                        View Details
-                      </button>
-                    </Link>
+                        <box-icon
+                          name="heart"
+                          animation="tada"
+                          type={isCurrentlyInWishlist ? "solid" : "regular"}
+                          style={{ cursor: "pointer" }}
+                          flip="horizontal"
+                          color="#ff0000"
+                        ></box-icon>
+                      </div>
+                      <Link>
+                        <button
+                          className="view-details-btn"
+                          onClick={() => setSelectedYacht(result)}
+                        >
+                          View Details
+                        </button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : null}
         </div>
@@ -405,7 +435,7 @@ const AboutUs = () => {
 };
 
 // AboutUs.propTypes = {
-//   setResults: PropTypes.func.isRequired,
+//   yachtId: PropTypes.func.isRequired,
 // };
 
 export default AboutUs;

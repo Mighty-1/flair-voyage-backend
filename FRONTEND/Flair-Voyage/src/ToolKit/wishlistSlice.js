@@ -1,22 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Initialize state as an object with a 'items' array
+const initialState = {
+  items: JSON.parse(localStorage.getItem("wishlist")) || [],
+};
+
 const wishlistSlice = createSlice({
   name: "wishlist",
-  initialState: JSON.parse(localStorage.getItem("wishlist")) || [],
+  initialState,
   reducers: {
     setWishlist: (state, action) => {
+      // Update the 'items' array in the state
+      state.items = action.payload;
       localStorage.setItem("wishlist", JSON.stringify(action.payload));
-      return action.payload;
     },
     addToWishlist: (state, action) => {
-      const updatedWishlist = [...state, action.payload];
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-      return updatedWishlist;
+      // Add the new item to the 'items' array
+      state.items.push(action.payload);
+      localStorage.setItem("wishlist", JSON.stringify(state.items));
     },
     removeFromWishlist: (state, action) => {
-      const updatedWishlist = state.filter((id) => id !== action.payload);
-      localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
-      return updatedWishlist;
+      // Filter out the item to remove from the 'items' array
+      state.items = state.items.filter((id) => id !== action.payload);
+      localStorage.setItem("wishlist", JSON.stringify(state.items));
     },
   },
 });

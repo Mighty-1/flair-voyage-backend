@@ -43,6 +43,7 @@ const MyBoats = () => {
       try {
         const response = await axios.get(
           "https://flair-voyage-backend.onrender.com/api/fetch-all-yachts"
+          // `${import.meta.env.VITE_APP_API_URL}/api/fetch-all-yachts`
         );
 
         if (Array.isArray(response.data)) {

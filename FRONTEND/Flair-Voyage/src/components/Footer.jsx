@@ -30,11 +30,15 @@ const Footer = () => {
 
 const styles = {
   footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
     backgroundColor: "#333",
     padding: "20px 0",
     color: "#fff",
     textAlign: "center",
-    marginTop: "20px",
+    marginTop: "50px",
   },
   container: {
     width: "90%",

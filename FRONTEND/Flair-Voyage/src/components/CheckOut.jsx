@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { setWishlist } from "../ToolKit/wishlistSlice";
 import { logout } from "../ToolKit/authSlice";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
@@ -32,10 +33,11 @@ const CheckOut = ({ reserve, selectedDate, selectedTime }) => {
 
   const selectedDateValue = selectedDate.toString();
 
-  const handleSubmit = async () => {
+  const handleReserveBooking = async (yachtId) => {
     try {
       const bookYacht = await axios.post(
         "https://flair-voyage-backend.onrender.com/api/create-new-booking",
+        // `${import.meta.env.VITE_APP_API_URL}/api/create-new-booking`,
         bookingDetails,
         {
           headers: {
@@ -43,6 +45,15 @@ const CheckOut = ({ reserve, selectedDate, selectedTime }) => {
           },
         }
       );
+
+      const removeItemFromWishlist = await axios.post(
+        // `${import.meta.env.VITE_APP_API_URL}/api/wishlists/remove-item`,
+        "https://flair-voyage-backend.onrender.com/api/wishlists/remove-item",
+        { yachtId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      dispatch(setWishlist(removeItemFromWishlist.data));
+
       if (bookYacht.status === 201) {
         setAlertMessage({
           severity: "success",
@@ -189,7 +200,10 @@ const CheckOut = ({ reserve, selectedDate, selectedTime }) => {
                 </label>
               )}
               {reserveToggle ? (
-                <button onClick={handleSubmit} className="pay-now-btn">
+                <button
+                  onClick={handleReserveBooking(yachtItem._id)}
+                  className="pay-now-btn"
+                >
                   Reserve
                 </button>
               ) : (

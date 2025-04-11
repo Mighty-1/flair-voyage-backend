@@ -1,0 +1,7 @@
+.main-layout {
+  /* position: relative; */
+  position: absolute;
+  width: 100%;
+  min-height: 100vh; /*Ensure the body takes at least the full viewport height*/
+  margin: 0;
+}

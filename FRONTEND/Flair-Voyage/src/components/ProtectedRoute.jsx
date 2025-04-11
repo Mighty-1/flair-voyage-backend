@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  return isAuthenticated ? children : <Navigate to="/dashboard" />;
+  return isAuthenticated ? children : <Navigate to="/" />;
 };
 
 ProtectedRoute.propTypes = {

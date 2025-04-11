@@ -105,7 +105,6 @@
   }
 }
 
-
 /*=====================================================*/
 /* Global styles for the city images */
 .city-contents {
@@ -121,6 +120,7 @@
   flex-direction: column;
   gap: 20px;
   margin-top: 30px;
+  margin-bottom: 120px;
   align-items: center;
   justify-content: center;
 }
@@ -254,6 +254,58 @@
   }
 }
 
+/*========================================*/
+@media (min-width: 800px) and (max-width: 900px) {
+  .city-contents {
+    justify-content: space-around; /* Distribute space evenly*/
+    gap: 10px; /* Adjust gap for this screen size */
+  }
+
+  .city-contents .lagos,
+  .city-contents .maldives,
+  .city-contents .new-zealand,
+  .city-contents .italy,
+  .city-contents .thailand,
+  .city-contents .australia,
+  .city-contents .greece,
+  .city-contents .seychelles,
+  .city-contents .spain,
+  .city-contents .phili {
+    /* flex-basis: calc(33.33% - 10px); Try to fit three cities per row */
+    min-width: 140px; /* Adjust minimum width as needed */
+    min-height: 140px; /* Adjust minimum height as needed */
+  }
+
+  .new-zealand {
+    /* Ensure new-zealand has a limited width */
+    max-width: 140px; /* Adjust this value as needed */
+  }
+
+  .new-zealand .city-names {
+    overflow-wrap: break-word;
+  }
+
+  .bestDestinations h1 {
+    font-size: 28px; /* Adjust heading size if needed */
+  }
+}
+
+@media (min-width: 1114px) {
+  .city-contents .lagos,
+  .city-contents .maldives,
+  .city-contents .new-zealand,
+  .city-contents .italy,
+  .city-contents .thailand,
+  .city-contents .australia,
+  .city-contents .greece,
+  .city-contents .seychelles,
+  .city-contents .spain,
+  .city-contents .phili {
+    /* flex-basis: calc(33.33% - 10px); Try to fit three cities per row */
+    min-width: 190px; /* Adjust minimum width as needed */
+    min-height: 190px; /* Adjust minimum height as needed */
+  }
+}
 /*=====================================================*/
 /* CSS for Responsive abt-login */
 .abt-login {
@@ -265,8 +317,8 @@
   align-items: center;
   justify-content: center;
   background-color: #efeef7;
-  width: 70vh;
-  height: 30vh;
+  width: 50%;
+  height: 50%;
   border-radius: 20px;
   margin-top: 30px;
 }
@@ -282,6 +334,7 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  margin-bottom: 10px;
 }
 
 .abt-login button:hover {
@@ -294,7 +347,8 @@
 /* Responsive Design */
 @media (max-width: 600px) {
   .abt-login {
-    width: 90%;
+
+    max-width: 90%;
     padding: 15px;
   }
 
@@ -307,7 +361,6 @@
     padding: 8px 16px;
   }
 }
-
 
 /*---------------------------------------------------------------- *
 /* Add Yacht container */
@@ -437,7 +490,6 @@
 .wishlist-icon:hover {
   transform: scale(1.2);
 }
-
 
 /* Modal content*/
 /*=====================================================*/

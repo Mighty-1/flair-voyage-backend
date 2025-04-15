@@ -11,6 +11,7 @@ import {
   Grid,
   Card,
   CardMedia,
+  CircularProgress,
   CardContent,
   Button,
 } from "@mui/material";
@@ -22,6 +23,7 @@ const WishList = () => {
   const wishlist = useSelector((state) => state.wishlist.items); // wishlist stored in redux
   const token = useSelector((state) => state.auth.token);
   const [alertMessage, setAlertMessage] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   // Fetch wishlist from backend on component mount
   useEffect(() => {
@@ -38,12 +40,27 @@ const WishList = () => {
 
         dispatch(setWishlist(wishlistData));
       } catch (error) {
-        console.error("Error fetching wishlist:", error);
+        if (error.response && error.response.status === 401) {
+          setAlertMessage({
+            severity: "error",
+            text: "Session expired. Please log in again.",
+          });
+          dispatch(logout());
+          setTimeout(() => navigate("/login"), 1000);
+        } else {
+          setAlertMessage({
+            severity: "error",
+            text: "Failed to load Wishlists.",
+          });
+        }
+        throw error;
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchWishlist();
-  }, [dispatch, token, wishlist]);
+  }, [dispatch, navigate, token, wishlist]);
 
   // Function to add an item to wishlist using /add-item endpoint
   // const handleAddItem = async (yachtId) => {
@@ -91,64 +108,70 @@ const WishList = () => {
 
   return (
     <>
-      <Box sx={{ p: { xs: 2, md: 4 } }}>
-        <Typography variant="h4" align="center" sx={{ mb: 3 }}>
-          My Wishlist
-        </Typography>
-        {wishlist && wishlist.length > 0 ? (
-          <Grid container spacing={2}>
-            {wishlist.map((item) => (
-              <Grid item xs={12} sm={6} md={4} key={item._id}>
-                <Card sx={{ maxWidth: 345, m: "auto" }}>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={item?.images?.[0]}
-                    alt={item.name || "Yacht"}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" component="div" gutterBottom>
-                      {item.name || "Yacht Name"}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.description || "Description of yacht"}
-                    </Typography>
-                    <Box
-                      sx={{
-                        mt: 2,
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <Button
-                        variant="contained"
-                        color="error"
-                        size="small"
-                        onClick={() => handleRemoveItem(item._id)}
-                        sx={{ flexGrow: 1, mr: 1 }}
-                      >
-                        Remove
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        sx={{ flexGrow: 1 }}
-                      >
-                        <Link to={`/book-now/${item._id}`}>Book Now</Link>
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography variant="body1" align="center" color="text.secondary">
-            Your wishlist is empty.
+      {loading ? (
+        <div className="flex justify-center items-center h-40">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Box sx={{ p: { xs: 2, md: 4 } }}>
+          <Typography variant="h4" align="center" sx={{ mb: 3 }}>
+            My Wishlist
           </Typography>
-        )}
-      </Box>
+          {wishlist && wishlist.length > 0 ? (
+            <Grid container spacing={2}>
+              {wishlist.map((item) => (
+                <Grid item xs={12} sm={6} md={4} key={item._id}>
+                  <Card sx={{ maxWidth: 345, m: "auto" }}>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={item?.images?.[0]}
+                      alt={item.name || "Yacht"}
+                    />
+                    <CardContent>
+                      <Typography variant="h6" component="div" gutterBottom>
+                        {item.name || "Yacht Name"}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {item.description || "Description of yacht"}
+                      </Typography>
+                      <Box
+                        sx={{
+                          mt: 2,
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="error"
+                          size="small"
+                          onClick={() => handleRemoveItem(item._id)}
+                          sx={{ flexGrow: 1, mr: 1 }}
+                        >
+                          Remove
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          size="small"
+                          sx={{ flexGrow: 1 }}
+                        >
+                          <Link to={`/book-now/${item._id}`}>Book Now</Link>
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          ) : (
+            <Typography variant="body1" align="center" color="text.secondary">
+              Your wishlist is empty.
+            </Typography>
+          )}
+        </Box>
+      )}
 
       {alertMessage !== null && (
         <Stack

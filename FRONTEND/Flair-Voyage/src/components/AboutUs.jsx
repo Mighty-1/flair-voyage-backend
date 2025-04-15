@@ -6,6 +6,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import axios from "axios";
 import { logout } from "../ToolKit/authSlice";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
 import { addToWishlist, removeFromWishlist } from "../ToolKit/wishlistSlice";
 import { setSearchResult } from "../ToolKit/searchSlice";
 import "boxicons";
@@ -17,6 +19,7 @@ const AboutUs = () => {
   const searchResult = useSelector((state) => state.search.searchResult);
   const token = useSelector((state) => state.auth.token);
   const wishlist = useSelector((state) => state.wishlist.items);
+  const [alertMessage, setAlertMessage] = useState(null);
 
   // const searchQuery = useSelector((state) => state.search.searchQuery);
 
@@ -274,6 +277,10 @@ const AboutUs = () => {
                         dispatch(logout());
                         navigate("/login");
                       } else {
+                        setAlertMessage({
+                          severity: "info",
+                          text: "Yacht removed from wishlist",
+                        });
                         dispatch(removeFromWishlist(yachtId));
                       }
                     } else {
@@ -289,6 +296,10 @@ const AboutUs = () => {
                         dispatch(logout());
                         navigate("/login");
                       } else {
+                        setAlertMessage({
+                          severity: "success",
+                          text: "Yacht added to wishlist",
+                        });
                         dispatch(addToWishlist(yachtId));
                       }
                     }
@@ -430,6 +441,29 @@ const AboutUs = () => {
           </div>
         </div>
       </div>
+
+      {alertMessage !== null && (
+        <Stack
+          sx={{
+            width: { xs: "100%", md: "30%" }, // 100% on mobile, 20% on larger screens
+            position: "fixed",
+            top: 20,
+            left: "100%",
+            transform: "translateX(-100%)",
+            zIndex: 9999,
+          }}
+          spacing={2}
+        >
+          <Alert
+            sx={{ bgcolor: "background.paper" }}
+            variant="outlined"
+            severity={alertMessage.severity}
+            onClose={() => setAlertMessage(null)}
+          >
+            {alertMessage.text}
+          </Alert>
+        </Stack>
+      )}
     </>
   );
 };

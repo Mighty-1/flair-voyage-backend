@@ -9,6 +9,7 @@ import "../styles/addYacht.css";
 const AddYacht = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -48,6 +49,7 @@ const AddYacht = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // Create a FormData to handle multipart data
     const data = new FormData();
@@ -89,6 +91,8 @@ const AddYacht = () => {
       } else if (error.message && error.status === 400) {
         alert("Failed to add Boats! Please try again");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -196,7 +200,30 @@ const AddYacht = () => {
           </label>
         </div>
         <button type="submit" className="a-y-addBoatBtn">
-          Add Boat
+          {loading ? (
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+              ></path>
+            </svg>
+          ) : (
+            "Add Boat"
+          )}
         </button>
       </form>
     </div>

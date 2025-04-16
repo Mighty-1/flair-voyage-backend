@@ -9,6 +9,7 @@ import Stack from "@mui/material/Stack";
 
 const Login = () => {
   const [alertMessage, setAlertMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -28,10 +29,11 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
-        "https://flair-voyage-backend.onrender.com/api/login",
-        // "http://localhost:3000/api/login",
+        // "https://flair-voyage-backend.onrender.com/api/login",
+        "http://localhost:3000/api/login",
         loginData
       );
       if (response.status === 200) {
@@ -52,7 +54,7 @@ const Login = () => {
     } catch (error) {
       if (error.message && error.status === 400) {
         setAlertMessage({
-          severity: "info",
+          severity: "error",
           text: "Invalid email or password",
         });
         setErrorMessage("Invalid email or password");
@@ -63,6 +65,8 @@ const Login = () => {
         });
         setErrorMessage("Failed to login. Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,7 +94,30 @@ const Login = () => {
             required
           />
           <button type="submit" className="lg-submitBtn" onClick={handleSubmit}>
-            Login
+            {loading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
+            ) : (
+              "Login"
+            )}
           </button>
           <Link to={"/signup"} className="lg-signup-link">
             Don&apos;t have an account? Sign Up

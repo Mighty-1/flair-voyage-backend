@@ -18,9 +18,12 @@ const MyBoats = () => {
   const handleDeleteBoat = async (id) => {
     if (!window.confirm("Are you sure you want to delete yacht?")) return;
     try {
-      await axios.delete(`https://flair-voyage-backend.onrender.com/api/delete-a-yacht/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        `https://flair-voyage-backend.onrender.com/api/delete-a-yacht/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setAlertMessage({
@@ -38,12 +41,14 @@ const MyBoats = () => {
       return error;
     }
   };
+
   useEffect(() => {
     const fetchBoats = async () => {
       try {
         const response = await axios.get(
-          "https://flair-voyage-backend.onrender.com/api/fetch-all-yachts"
-          // `${import.meta.env.VITE_APP_API_URL}/api/fetch-all-yachts`
+          // "https://flair-voyage-backend.onrender.com/api/fetch-agent-yachts",
+          `${import.meta.env.VITE_APP_API_URL}/api/fetch-agent-yachts`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
         if (Array.isArray(response.data)) {
@@ -64,7 +69,7 @@ const MyBoats = () => {
       }
     };
     fetchBoats();
-  }, []);
+  }, [token]);
 
   return (
     <>

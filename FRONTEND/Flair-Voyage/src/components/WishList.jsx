@@ -108,15 +108,16 @@ const WishList = () => {
 
   return (
     <>
+      <Typography variant="h4" align="center" sx={{ mb: 3 }}>
+        My Wishlist
+      </Typography>
+
       {loading ? (
         <div className="flex justify-center items-center h-40">
           <CircularProgress />
         </div>
       ) : (
         <Box sx={{ p: { xs: 2, md: 4 } }}>
-          <Typography variant="h4" align="center" sx={{ mb: 3 }}>
-            My Wishlist
-          </Typography>
           {wishlist && wishlist.length > 0 ? (
             <Grid container spacing={2}>
               {wishlist.map((item) => (

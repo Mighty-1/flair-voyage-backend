@@ -10,7 +10,7 @@ const upload = multer({ storage });
 // const upload = multer({ dest: 'uploads/' });
 
 // Routes
-router.get("/fetch-all-yachts", yachtController.getYachts);
+router.get("/fetch-agent-yachts", protect, yachtController.getYachtsByOwner);
 router.get("/fetch-yacht-by-id/:id", yachtController.getYachtById);
 router.post(
   "/create-a-yacht",

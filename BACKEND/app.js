@@ -5,6 +5,7 @@ const userRoutes = require("./routes/User.routes");
 const bookingRoutes = require("./routes/booking.routes");
 const yachtRoutes = require("./routes/yacht.routes");
 const flutterwaveRoutes = require("./routes/payment.routes");
+const wishlistRoutes = require("./routes/wishlist.routes");
 const protect = require("./middlewares/authMiddleware");
 
 const app = express();
@@ -14,10 +15,11 @@ app.use(
   cors({
     origin:
       // "https://flair-voyage-oakuzydz3-mightys-projects-1dbba71e.vercel.app/", // Replace with your frontend's URL
-      "https://flair-voyage.vercel.app/",
+      // "https://flair-voyage.vercel.app/",
+      "http://localhost:5173",
     credentials: true,
   })
-)
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +30,7 @@ app.use("/api", userRoutes);
 app.use("/api", bookingRoutes);
 app.use("/api", yachtRoutes);
 app.use("/api", flutterwaveRoutes);
+app.use("/api", wishlistRoutes);
 app.use(protect);
 
 module.exports = app;

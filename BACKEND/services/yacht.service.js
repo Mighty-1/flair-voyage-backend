@@ -2,9 +2,9 @@ const Yacht = require("../models/Yacht.model");
 const cloudinary = require("cloudinary").v2;
 require("dotenv").config();
 
-// Fetch all yachts
-const getAllYachts = async () => {
-  return await Yacht.find({});
+// Fetch Agent yachts
+const getYachtsByOwner = async (ownerId) => {
+  return await Yacht.find({owner: ownerId});
 };
 
 // Fetch a specific yacht by ID
@@ -94,7 +94,7 @@ const searchYachts = async (query) => {
 };
 
 module.exports = {
-  getAllYachts,
+  getYachtsByOwner,
   getYachtById,
   uploadImages,
   createYacht,

@@ -1,9 +1,14 @@
 const yachtService = require("../services/yacht.service");
 
-// Get all yachts
-const getYachts = async (req, res) => {
+// Get Agent yachts
+const getYachtsByOwner = async (req, res) => {
   try {
-    const yachts = await yachtService.getAllYachts();
+    const ownerId = req.user.id; // or req.query.ownerId if from query
+    if (!ownerId) {
+      return res.status(400).json({ message: "Owner ID is required" });
+    }
+
+    const yachts = await yachtService.getYachtsByOwner(ownerId);
     res.status(200).json(yachts);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -93,7 +98,7 @@ const searchYachts = async (req, res) => {
 
 
 module.exports = {
-  getYachts,
+  getYachtsByOwner,
   getYachtById,
   createYacht,
   updateYacht,

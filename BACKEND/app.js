@@ -15,8 +15,8 @@ app.use(
   cors({
     origin:
       // "https://flair-voyage-oakuzydz3-mightys-projects-1dbba71e.vercel.app/", // Replace with your frontend's URL
-     "https://flair-voyage.vercel.app/",
-       // "http://localhost:5173",
+      "https://flair-voyage.vercel.app/",
+      // "http://localhost:5173",
     credentials: true,
   })
 );

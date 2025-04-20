@@ -86,7 +86,7 @@ const searchYachts = async (req, res) => {
           index: "default", // or your custom index name
           text: {
             query: query,
-            path: ["name", "description"], // fields to search
+            path: ["name", "description", "features", "location"], // fields to search
           },
         },
       },

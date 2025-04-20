@@ -78,7 +78,7 @@ const deleteYacht = async (id) => {
   return yacht;
 };
 
-const searchYachts = async (req, res) => {
+const searchYachts = async (query) => {
   try {
     const results = await Yacht.aggregate([
       {

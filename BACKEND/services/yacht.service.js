@@ -78,16 +78,24 @@ const deleteYacht = async (id) => {
   return yacht;
 };
 
-const searchYachts = async (query) => {
+const searchYachts = async (req, res) => {
   try {
-    const yachts = await Yacht.find({
-      $or: [
-        { name: { $regex: query, $options: "i" } },
-        { location: { $regex: query, $options: "i" } },
-      ],
-    });
+    const results = await Yacht.aggregate([
+      {
+        $search: {
+          index: "default", // or your custom index name
+          text: {
+            query: query,
+            path: ["name", "description"], // fields to search
+          },
+        },
+      },
+      {
+        $limit: 20, // limit results
+      },
+    ]);
 
-    return yachts;
+    return results;
   } catch (error) {
     throw new Error("Error searching yachts");
   }

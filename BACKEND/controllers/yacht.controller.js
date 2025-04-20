@@ -92,7 +92,7 @@ const searchYachts = async (req, res) => {
     const yachts = await yachtService.searchYachts(query);
     res.status(200).json(yachts);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+        res.status(500).json({ message: "Search failed", error });
   }
 };
 
